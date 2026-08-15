@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: Descargar el código
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Instalar Snyk CLI
-        uses: snyk/actions/setup@master
+        uses: snyk/actions/setup@v1.0.0
 
       - name: Analizar el código con Snyk Code
         run: snyk code test --severity-threshold=high
