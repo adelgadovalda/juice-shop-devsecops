@@ -1,0 +1,27 @@
+name: SAST - Snyk Code
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  sast-snyk:
+    name: Snyk Code SAST
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+
+      - name: Instalar Snyk CLI
+        uses: snyk/actions/setup@v1.0.0
+
+      - name: Analizar el código con Snyk Code
+        continue-on-error: true
+        run: snyk code test --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

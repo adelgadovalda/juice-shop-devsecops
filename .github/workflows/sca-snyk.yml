@@ -1,0 +1,35 @@
+name: SCA - Snyk
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  sca-snyk:
+    name: Snyk Open Source
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Generar archivo de dependencias
+        run: npm install --package-lock-only --package-lock=true --ignore-scripts
+
+      - name: Analizar dependencias con Snyk
+        continue-on-error: true
+        uses: snyk/actions/node@v1.0.0
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
