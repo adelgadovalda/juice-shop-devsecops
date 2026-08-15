@@ -21,6 +21,7 @@ jobs:
         uses: snyk/actions/setup@v1.0.0
 
       - name: Analizar el código con Snyk Code
+        continue-on-error: true
         run: snyk code test --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

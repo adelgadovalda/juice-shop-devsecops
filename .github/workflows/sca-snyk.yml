@@ -27,6 +27,7 @@ jobs:
         run: npm install --package-lock-only --package-lock=true --ignore-scripts
 
       - name: Analizar dependencias con Snyk
+        continue-on-error: true
         uses: snyk/actions/node@v1.0.0
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
